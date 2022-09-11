@@ -1,4 +1,4 @@
-# stock-api
+# STOCK-API
 Get various information on Stock Tickers using the Nasdaq Data Link API
 
 # Fill the data on the Home Screen:
