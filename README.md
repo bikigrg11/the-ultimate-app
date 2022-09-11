@@ -18,5 +18,5 @@ flask run
 4.Choose the time period on how long you want the data from the latsest data that is provided by Nasdaq Data Link
 5.Choose the parameters you want the data for
 
-https://github.com/bikigrg11/stock-api/blob/main/static/user_files/home.png?raw=true
+<img href="https://github.com/bikigrg11/stock-api/blob/main/static/user_files/home.png?raw=true">
 
