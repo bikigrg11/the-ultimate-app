@@ -4,6 +4,7 @@ from flask import Flask, render_template, request
 from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 import requests
+from flask import send_file
 
 app = Flask(__name__)
 
@@ -12,9 +13,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-app.run(host='127.0.0.1', port=8080)
-
-global url_csv_file
+#app.run(host='127.0.0.1', port=8080)
 
 
 @app.route('/generate', methods =["GET", "POST"])
@@ -56,12 +55,14 @@ def generate():
             if request.form.get('generate2') == 'csv':
                 req = requests.get(url_csv_file)
                 url_content = req.content
-                csv_file = open(tickerOption +'downloaded.csv', 'wb')
+                csvFileName = tickerOption+"-"+dateOption+'months.csv'
+                csv_file = open(csvFileName, 'wb')
                 csv_file.write(url_content)
                 csv_file.close()
-                message = "File Download has been completed for CSV file of Ticker:"+tickerOption+ " for "+dateOption+" Months"
-                csvResponse = "Thank you !"
-                return render_template("index.html",name=first_name,msg=message,note=csvResponse)
+                #message = "File Download has been completed for CSV file of Ticker:"+tickerOption+ " for "+dateOption+" Months"
+                #csvResponse = "Thank you !"
+                #render_template("index.html",name=first_name,msg=message,note=csvResponse)
+                return send_file(csvFileName, as_attachment=True)
 
 
     # if request.method == "GET":
@@ -71,6 +72,6 @@ def generate():
         
 
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('page_not_found.html'), 404
+# @app.errorhandler(404)
+# def page_not_found(error):
+#     return render_template('page_not_found.html'), 404
