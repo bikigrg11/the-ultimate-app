@@ -1,4 +1,3 @@
-from tkinter import E
 from urllib import response
 from flask import Flask, render_template, request
 from datetime import date, datetime
@@ -75,3 +74,4 @@ def generate():
 # @app.errorhandler(404)
 # def page_not_found(error):
 #     return render_template('page_not_found.html'), 404
+
