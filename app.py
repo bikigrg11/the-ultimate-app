@@ -5,6 +5,9 @@ from dateutil.relativedelta import relativedelta
 import requests
 from flask import send_file
 
+import subprocess
+
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -38,14 +41,19 @@ def generate():
                 start_date = end_date - relativedelta(months=+12)
     
             start_date = start_date.strftime("%Y-%m-%d")
-            url_api_call = "https://data.nasdaq.com/api/v3/datasets/WIKI/"+tickerOption+".json?start_date="+start_date+"&end_date="+newest_available_date+"&order=asc&api_key=XoQQzN7nCkktZBwqse24"
-            url_csv_file = "https://data.nasdaq.com/api/v3/datasets/WIKI/"+tickerOption+".csv?start_date="+start_date+"&end_date="+newest_available_date+"&order=asc&api_key=XoQQzN7nCkktZBwqse24"
+            url_api_call = "https://data.nasdaq.com/api/v3/datasets/WIKI/"+tickerOption+".json?start_date="+start_date+"&end_date="+newest_available_date+"&order=asc&api_key=LhpSY93Li7WXbet5_yi6"
+            url_csv_file = "https://data.nasdaq.com/api/v3/datasets/WIKI/"+tickerOption+".csv?start_date="+start_date+"&end_date="+newest_available_date+"&order=asc&api_key=LhpSY93Li7WXbet5_yi6"
 
             #response = requests.get("https://data.nasdaq.com/api/v3/datasets/WIKI/AAPL.json?start_date=1985-05-01&end_date=1997-07-01&order=asc&api_key=XoQQzN7nCkktZBwqse24")
             response = requests.get(url_api_call)
             jsonResponse = response.json()
-            print(tickerOption)
-            print(url_api_call)
+            
+
+            
+            #print(url_api_call)
+            tickOpt = subprocess.check_output(["echo",tickerOption])
+            print(tickOpt)
+
             #print(response.json())
             if request.form.get('generate1') == 'json':
                 message = "Your JSON data of Ticker:"+tickerOption+ " for "+dateOption+" Months is below"
@@ -68,10 +76,3 @@ def generate():
     #     #csv_url = "https://data.nasdaq.com/api/v3/datasets/WIKI/AAPL.csv?start_date=1985-05-01&end_date=1997-07-01&order=asc"
     #     print("I AM HERE")
     #     print(url_csv_file)
-        
-
-
-# @app.errorhandler(404)
-# def page_not_found(error):
-#     return render_template('page_not_found.html'), 404
-
