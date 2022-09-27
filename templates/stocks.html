@@ -1,0 +1,225 @@
+{% extends 'layout.html' %}
+
+{% block sidenav %}
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ url_for('home') }}">
+                <span data-feather="home" class="align-text-bottom"></span>
+                Dashboard
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ url_for('stocks') }}">
+                <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+                Stocks
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <span data-feather="command" class="align-text-bottom"></span>
+                Crypto
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <span data-feather="dribbble" class="align-text-bottom"></span>
+                Betting
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">
+                <span data-feather="pie-chart" class="align-text-bottom"></span>
+                Reports
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('blog') }}">
+                <span data-feather="layers" class="align-text-bottom"></span>
+                Blog
+            </a>
+        </li>                  
+    </ul>
+{% endblock %}
+
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Stock Market Report</h1>
+        <a class="navbar-brand mb-2 mb-md-0" href="https://docs.data.nasdaq.com/">
+            <img src="../static/user_files/nasdaqdl.jpeg" width="180" height="60" alt="">
+        </a>
+
+        <!-- <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                    <span data-feather="calendar" class="align-text-bottom"></span>
+                    This week
+                </button>
+            </div> -->
+    </div>
+
+    <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+
+    <!-- <h2>Section title</h2> -->
+    <!-- <div class="container"> -->
+    <p class="lead">The data below has been generated using the Nasdaq Data Link API.</p>
+
+    <nav class="navbar navbar-light bg-light">
+        
+    </nav>
+    <div class="row g-5">
+        <div class="col-md-7 col-lg-8">
+            <form class="needs-validation" action="generate" method="post" novalidate>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="firstName" class="form-label">First name</label>
+                        <input type="text" class="form-control" name="fname" id="firstName" placeholder="firstName"
+                            value="" required>
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <label for="lastName" class="form-label">Last name</label>
+                        <input type="text" class="form-control" name="lname" id="lastName" placeholder="lastName"
+                            value="" required>
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+
+                    <h4 class="mb-3">Please choose the stock you would like to get report on:</h4>
+
+                    <div class="form-check">
+                        <input id="credit" name="ticker" value="AMZN" type="radio" class="form-check-input" checked
+                            required>
+                        <label class="form-check-label" for="credit">Amazon - AMZN</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="debit" name="ticker" value="AAPL" type="radio" class="form-check-input" required>
+                        <label class="form-check-label" for="debit">Apple - AAPL</label>
+                    </div>
+                    <div class="form-check">
+                        <input id="paypal" name="ticker" value="PYPL" type="radio" class="form-check-input" required>
+                        <label class="form-check-label" for="paypal">PayPal - PYPL</label>
+                    </div>
+                    <br>
+
+                    <div class="col-md-5">
+                        <label for="time-period" class="form-label">Time Period you want the data:</label>
+                        <select class="form-select" id="time-value" name="time-dropdown" required>
+                            <option value="">Choose...</option>
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12">1 Year</option>
+
+                        </select>
+                    </div>
+
+                    <div class="invalid-feedback">
+                        SELECT ALL TABLE DATA YOU NEED:
+                    </div>
+                    <div class="row g-3">
+
+                        <div class="col-sm-6">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="same-address">
+                                <label class="form-check-label" for="same-address">DATE</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">OPEN</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">HIGH</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">LOW</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">Close Volume</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">Ex-Dividend</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">Split Ratio</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">Adj. Open</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">Adj. High</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">Adj. Low</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">Adj. Close</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="save-info">
+                                <label class="form-check-label" for="save-info">Adj. Volume</label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+
+                    <button class="w-100 btn btn-primary btn-lg" name="generate1" value="json" type="submit">GENERATE
+                        JSON
+                        REPORT</button>
+
+                    <button class="w-100 btn btn-primary btn-lg" name="generate2" value="csv" type="submit">DOWNLOAD
+                        CSV
+                        REPORT</button>
+
+            </form>
+        </div>
+    </div>
+
+    {% if name %}
+    <br>
+    <h1> Hello {{name}} ! Thank you for using the app. </h1>
+    <h3> {{msg}}:</h3>
+    {% endif %}
+    {% if note %}
+    <p>{{note}}</p>
+    <form action="generate" method="POST">
+    </form>
+
+    {% endif %}
+
+    <!-- <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2022 Biki Gurung</p>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Privacy</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Support</a></li>
+        </ul>
+    </footer> -->
+
+</main>
+{% endblock %}
